@@ -1,0 +1,70 @@
+[gd_scene load_steps=2 format=3 uid="uid://sevkiv6f87d2"]
+
+[ext_resource type="PackedScene" uid="uid://0fn60m2jecek" path="res://dawgshi/actualprojectshi/content_container.tscn" id="1_lti8b"]
+
+[node name="Menu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1021.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="mainMenu" type="BoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="UI" type="HBoxContainer" parent="mainMenu"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="side" type="VBoxContainer" parent="mainMenu/UI"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="Top" type="BoxContainer" parent="mainMenu/UI/side"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.43
+
+[node name="ColorRect" type="ColorRect" parent="mainMenu/UI/side/Top"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.292969, 0.30014, 0.3125, 1)
+
+[node name="Bottom" type="VBoxContainer" parent="mainMenu/UI/side"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 6.16
+
+[node name="ColorRect2" type="ColorRect" parent="mainMenu/UI/side/Bottom"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+color = Color(0.564148, 0.580755, 0.609375, 1)
+
+[node name="body" type="VBoxContainer" parent="mainMenu/UI"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="header" type="BoxContainer" parent="mainMenu/UI/body"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect3" type="ColorRect" parent="mainMenu/UI/body/header"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.527832, 0.700489, 0.734375, 1)
+
+[node name="content_container" parent="mainMenu/UI/body" instance=ExtResource("1_lti8b")]
+layout_mode = 2
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 0
+offset_left = -30.0
+offset_top = -27.0
+offset_right = 1310.0
+offset_bottom = 768.0
+mouse_filter = 2

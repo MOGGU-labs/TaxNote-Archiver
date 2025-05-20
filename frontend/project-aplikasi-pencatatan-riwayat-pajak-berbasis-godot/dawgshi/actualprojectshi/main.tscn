@@ -1,0 +1,162 @@
+[gd_scene load_steps=6 format=3 uid="uid://beebx31yvhlv"]
+
+[ext_resource type="Script" uid="uid://d02aa72o843sm" path="res://dawgshi/scripts/mainmenu.gd" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://0fn60m2jecek" path="res://dawgshi/actualprojectshi/content_container.tscn" id="2_0xm2m"]
+
+[sub_resource type="Animation" id="Animation_ig7tw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/BoxContainer/sidebar:size_flags_stretch_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.25]
+}
+
+[sub_resource type="Animation" id="Animation_7dm0k"]
+resource_name = "open"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("VBoxContainer/BoxContainer/sidebar:size_flags_stretch_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0xm2m"]
+_data = {
+&"RESET": SubResource("Animation_ig7tw"),
+&"open": SubResource("Animation_7dm0k")
+}
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ig7tw")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = -5.0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="BoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="sidebar" type="VBoxContainer" parent="VBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.25
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/BoxContainer/sidebar"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.2
+
+[node name="ColorRect" type="ColorRect" parent="VBoxContainer/BoxContainer/sidebar/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.302795, 0.320313, 0.307996, 1)
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/BoxContainer/sidebar"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ColorRect3" type="ColorRect" parent="VBoxContainer/BoxContainer/sidebar/VBoxContainer2"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.746094, 0.746094, 0.746094, 1)
+
+[node name="bodyContainer" type="VBoxContainer" parent="VBoxContainer/BoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="header" type="VBoxContainer" parent="VBoxContainer/BoxContainer/bodyContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.15
+
+[node name="ColorRect2" type="ColorRect" parent="VBoxContainer/BoxContainer/bodyContainer/header"]
+layout_mode = 2
+size_flags_vertical = 3
+color = Color(0.898438, 0.714188, 0.224609, 1)
+
+[node name="Button" type="Button" parent="VBoxContainer/BoxContainer/bodyContainer/header/ColorRect2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -96.0
+offset_top = -31.5
+offset_right = -13.0
+offset_bottom = 26.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "LOGIN"
+
+[node name="controlsidebar" type="Button" parent="VBoxContainer/BoxContainer/bodyContainer/header/ColorRect2"]
+layout_direction = 2
+layout_mode = 0
+offset_left = 14.0
+offset_top = 18.0
+offset_right = 98.0
+offset_bottom = 75.0
+text = "<>"
+
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer/BoxContainer/bodyContainer/header/ColorRect2"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -614.0
+offset_top = -30.5
+offset_right = -106.0
+offset_bottom = 26.5
+grow_horizontal = 0
+grow_vertical = 2
+text = "SELAMAT DATANG DI MAIN MENU, GUEST"
+editable = false
+wrap_mode = 1
+
+[node name="body" type="VBoxContainer" parent="VBoxContainer/BoxContainer/bodyContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="content_container" parent="VBoxContainer/BoxContainer/bodyContainer/body" instance=ExtResource("2_0xm2m")]
+layout_mode = 2
+
+[node name="BG" type="ColorRect" parent="."]
+show_behind_parent = true
+z_index = -1
+layout_mode = 0
+offset_left = -5.0
+offset_right = 1280.0
+offset_bottom = 720.0
+mouse_filter = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_0xm2m")
+}
+
+[connection signal="pressed" from="VBoxContainer/BoxContainer/bodyContainer/header/ColorRect2/controlsidebar" to="." method="_on_controlsidebar_pressed"]

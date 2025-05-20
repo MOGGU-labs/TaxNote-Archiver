@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://bcpufjvo66ovc"]
+
+[ext_resource type="Script" uid="uid://d257jcmcujcd2" path="res://dawgshi/scripts/create_folder.gd" id="1_nwvb7"]
+
+[node name="CreateFolder" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_nwvb7")
+
+[node name="form" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="client" type="TextEdit" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Nama Client :"
+
+[node name="folder" type="TextEdit" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Nama Folder :"
+
+[node name="author" type="TextEdit" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Nama Author:"
+
+[node name="telp" type="TextEdit" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "No Telp Client :"
+
+[node name="alamat" type="TextEdit" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "Alamat CLient :"
+
+[node name="npwp" type="TextEdit" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "No. NPWP :"
+
+[node name="nkp" type="TextEdit" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "No. NKP :"
+
+[node name="space" type="BoxContainer" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="buttons" type="HBoxContainer" parent="form"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Send" type="Button" parent="form/buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "SEND"
+
+[node name="NUKE" type="Button" parent="form/buttons"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 40
+text = "CHECK"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+
+[connection signal="pressed" from="form/buttons/Send" to="." method="_on_send_pressed"]
+[connection signal="pressed" from="form/buttons/NUKE" to="." method="_on_nuke_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_http_request_completed"]
