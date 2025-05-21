@@ -18,7 +18,7 @@ size_flags_vertical = 3
 [node name="ItemList" type="ItemList" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-size_flags_stretch_ratio = 0.45
+size_flags_stretch_ratio = 0.2
 
 [node name="InputNama" type="LineEdit" parent="VBoxContainer"]
 layout_mode = 2
@@ -71,4 +71,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 text = "DELETE ALL"
 
+[connection signal="text_changed" from="VBoxContainer/InputID" to="." method="_on_input_id_text_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/GET" to="." method="_on_get_pressed"]

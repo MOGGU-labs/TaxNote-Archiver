@@ -36,12 +36,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const get = __importStar(require("./routes/route"));
-const app = (0, express_1.default)();
-const PORT = 3000;
-app.use(express_1.default.json());
-app.use('/api', get.route);
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
+exports.route = void 0;
+const express_1 = require("express");
+//Model for Test
+const onTest = __importStar(require("../Example/queriestest"));
+//Models imported for each route (CLIENT,CASE,CONSULT)
+const clients_query_1 = __importDefault(require("../models/clients_query"));
+const cases_queries_1 = __importDefault(require("../models/cases_queries"));
+exports.route = (0, express_1.Router)();
+//Test Routes
+exports.route.get('/data/status', onTest.checkStatus);
+exports.route.post('/data', onTest.PostData);
+exports.route.delete('/data', onTest.deleteAll);
+exports.route.get('/data', onTest.getAllData);
+exports.route.get('/data/:id', onTest.getDataById);
+exports.route.put('/data/:id', onTest.updateData);
+exports.route.delete('/data/:id', onTest.deleteData);
+//Clients Routes
+exports.route.get('/clients/status', clients_query_1.default.checkStatus);
+//Cases Routes
+exports.route.get('/cases/status', cases_queries_1.default.checkStatus);
+//Consults Routes 
+exports.route.get('/consults/status', cases_queries_1.default.checkStatus);

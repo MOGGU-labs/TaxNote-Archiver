@@ -1,20 +1,11 @@
 import express from 'express';
-import * as que from './queries'
-
+import * as get from './routes/route'
 const app = express();
 const PORT = 3000;
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-//routes
-app.get('/api/status',que.checkStatus);
-app.post('/api/data',que.PostData);
-app.delete('/api/data',que.deleteAll);
-app.get('/api/data',que.getAllData);
+app.use(express.json())
 
-app.get('/api/data/:id',que.getDataById);
-app.put('/api/data/:id',que.updateData);
-app.delete('/api/data/:id',que.deleteData);
+app.use('/api',get.route)
 
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

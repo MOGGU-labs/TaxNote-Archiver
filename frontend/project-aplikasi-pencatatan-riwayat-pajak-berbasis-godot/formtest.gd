@@ -13,7 +13,6 @@ extends Control
 @onready var delete: Button = $VBoxContainer/HBoxContainer/DELETE
 @onready var delete_all: Button = $"VBoxContainer/HBoxContainer/DELETE ALL"
 
-
 func _ready() -> void:
 	get_all.pressed.connect(_on_get_all_pressed)
 	create.pressed.connect(_on_create_pressed)
@@ -26,10 +25,14 @@ func _ready() -> void:
 	HttpManager.request_failed.connect(_on_request_failed)
 	HttpManager.data_received.connect(_on_data_loaded)
 	HttpManager.connect("request_success", Callable(self, "_on_data_loaded"))
-
 	
+	item_list.item_clicked.connect(_on_item_list_item_clicked)
+	input_id.text_changed.connect(_on_input_id_text_changed)
+
 	# Load all data at start
 	_on_get_all_pressed()
+	_on_input_id_text_changed(input_id.text)
+
 
 func _on_get_all_pressed() -> void:
 	HttpManager.get_request("api/data")
@@ -92,9 +95,11 @@ func _on_data_loaded(data:Dictionary, response_code) -> void:
 	input_nama.text = data.get("nama", "")
 	input_kelas.text = data.get("kelas", "")
 	input_npm.text = data.get("npm", "")
+
 func _update_item_list(items: Array) -> void:
 	item_list.clear()
-	for item in items:
+	for i in items.size():
+		var item = items[i]
 		var display_text = "ID: %s | Nama: %s | Kelas: %s | NPM: %s" % [
 			str(item.get("id", "")),
 			item.get("nama", ""),
@@ -102,3 +107,24 @@ func _update_item_list(items: Array) -> void:
 			item.get("npm", "")
 		]
 		item_list.add_item(display_text)
+		item_list.set_item_metadata(i, item) # Store the full item dictionary
+
+func _on_item_list_item_clicked(index: int, at_position: Vector2, mouse_button_index: int) -> void:
+	var item_data = item_list.get_item_metadata(index)
+	if typeof(item_data) == TYPE_DICTIONARY:
+		input_id.text = str(item_data.get("id", ""))
+		input_nama.text = item_data.get("nama", "")
+		input_kelas.text = item_data.get("kelas", "")
+		input_npm.text = item_data.get("npm", "")
+		
+		create.disabled = true
+		get_.disabled = false
+		update.disabled = false
+		delete.disabled = false
+
+func _on_input_id_text_changed(new_text: String) -> void:
+	var has_text = new_text.strip_edges() != ""
+	create.disabled = has_text
+	get_.disabled = not has_text
+	update.disabled = not has_text
+	delete.disabled = not has_text

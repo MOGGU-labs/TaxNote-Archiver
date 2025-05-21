@@ -7,7 +7,7 @@ exports.db = void 0;
 const promise_1 = __importDefault(require("mysql2/promise"));
 exports.db = promise_1.default.createPool({
     host: 'localhost',
-    user: 'ADMIN001',
-    password: '',
-    database: 'catatandb'
+    user: 'root',
+    password: 'haikalsmp24',
+    database: 'clientPajak',
 });
