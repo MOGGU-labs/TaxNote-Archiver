@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-HttpManager="*res://http_manager.gd"
+HttpManager="*res://HTTPmanager/http_manager.gd"
 
 [display]
 

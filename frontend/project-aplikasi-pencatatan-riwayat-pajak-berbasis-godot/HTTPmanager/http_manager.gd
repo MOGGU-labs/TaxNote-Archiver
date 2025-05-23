@@ -9,8 +9,8 @@ signal data_received(endpoint: String, data: Dictionary)
 var base_url: String = "http://localhost:3000/"
 var timeout: float = 10.0
 var http_request: HTTPRequest
-#======================================= Internals=======================================
 
+#======================================= Internals=======================================
 func _ready() -> void:
 	http_request = HTTPRequest.new()
 	http_request.timeout = timeout
@@ -28,7 +28,6 @@ func get_request(endpoint: String, headers: PackedStringArray = PackedStringArra
 	var url = base_url + endpoint
 	var error = http_request.request(url, headers, HTTPClient.METHOD_GET)
 	_error_logic(error, "GET")
-
 func post_request(endpoint: String, data: Dictionary, headers: PackedStringArray = PackedStringArray()) -> void:
 	send_request(HTTPClient.METHOD_POST, endpoint, data, headers)
 func put_request(endpoint: String, data: Dictionary, headers: PackedStringArray = PackedStringArray()) -> void:

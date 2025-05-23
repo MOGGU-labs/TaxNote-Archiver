@@ -38,23 +38,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.route = void 0;
 const express_1 = require("express");
-//Model for Test
 const onTest = __importStar(require("../Example/queriestest"));
-//Models imported for each route (CLIENT,CASE,CONSULT)
-const clients_query_1 = __importDefault(require("../models/clients_query"));
-const cases_queries_1 = __importDefault(require("../models/cases_queries"));
+const client_query_1 = __importDefault(require("../models/client_query"));
+const case_query_1 = __importDefault(require("../models/case_query"));
 exports.route = (0, express_1.Router)();
 //Test Routes
 exports.route.get('/data/status', onTest.checkStatus);
 exports.route.post('/data', onTest.PostData);
 exports.route.delete('/data', onTest.deleteAll);
 exports.route.get('/data', onTest.getAllData);
+//by :id
 exports.route.get('/data/:id', onTest.getDataById);
 exports.route.put('/data/:id', onTest.updateData);
 exports.route.delete('/data/:id', onTest.deleteData);
 //Clients Routes
-exports.route.get('/clients/status', clients_query_1.default.checkStatus);
+exports.route.get('/clients/status', client_query_1.default.checkStatus);
+exports.route.get('/clients', client_query_1.default.getClients);
+exports.route.post('/clients', client_query_1.default.postClients);
 //Cases Routes
-exports.route.get('/cases/status', cases_queries_1.default.checkStatus);
+exports.route.get('/cases/status', case_query_1.default.checkStatus);
 //Consults Routes 
-exports.route.get('/consults/status', cases_queries_1.default.checkStatus);
+exports.route.get('/consults/status', case_query_1.default.checkStatus);

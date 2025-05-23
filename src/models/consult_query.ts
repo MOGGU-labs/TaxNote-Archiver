@@ -1,5 +1,6 @@
 import { db } from '../db';
 import { Request, Response } from 'express';
+
 //CONSULTS QUERIES
 async function checkStatus(req: Request, res: Response) {
     try {
@@ -10,8 +11,6 @@ async function checkStatus(req: Request, res: Response) {
         res.status(500).json({ status: 'error', db: 'not connected', details: error });
     }
 }
-
-
 
 export default {
     checkStatus,

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cnutfpmpocql2"]
+
+[ext_resource type="Script" uid="uid://74d7fdt8im7m" path="res://RSAdecryptor.gd" id="1_xsk6f"]
+
+[node name="Node" type="Node"]
+script = ExtResource("1_xsk6f")

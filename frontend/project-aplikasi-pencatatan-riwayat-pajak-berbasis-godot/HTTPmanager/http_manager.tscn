@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://qqg0372uetoa"]
 
-[ext_resource type="Script" uid="uid://t071dgk7466i" path="res://http_manager.gd" id="1_23dh5"]
+[ext_resource type="Script" uid="uid://t071dgk7466i" path="res://HTTPmanager/http_manager.gd" id="1_23dh5"]
 
 [node name="httpManager" type="Node"]
 script = ExtResource("1_23dh5")

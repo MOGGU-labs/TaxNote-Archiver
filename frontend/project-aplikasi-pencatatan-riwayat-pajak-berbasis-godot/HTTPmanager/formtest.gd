@@ -24,6 +24,7 @@ func _ready() -> void:
 	HttpManager.request_success.connect(_on_request_success)
 	HttpManager.request_failed.connect(_on_request_failed)
 	HttpManager.data_received.connect(_on_data_loaded)
+	
 	HttpManager.connect("request_success", Callable(self, "_on_data_loaded"))
 	
 	item_list.item_clicked.connect(_on_item_list_item_clicked)
