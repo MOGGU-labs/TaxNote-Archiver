@@ -42,6 +42,7 @@ const app = (0, express_1.default)();
 const PORT = 3000;
 app.use(express_1.default.json());
 app.use('/api', get.route);
+app.use('/myadmin', get.route);
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });

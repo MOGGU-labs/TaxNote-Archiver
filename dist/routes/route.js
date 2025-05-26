@@ -1,61 +1,54 @@
 "use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || (function () {
-    var ownKeys = function(o) {
-        ownKeys = Object.getOwnPropertyNames || function (o) {
-            var ar = [];
-            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
-            return ar;
-        };
-        return ownKeys(o);
-    };
-    return function (mod) {
-        if (mod && mod.__esModule) return mod;
-        var result = {};
-        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
-        __setModuleDefault(result, mod);
-        return result;
-    };
-})();
+//import * as onTest from '../Example/queriestest'
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.route = void 0;
 const express_1 = require("express");
-const onTest = __importStar(require("../Example/queriestest"));
-const client_query_1 = __importDefault(require("../models/client_query"));
-const case_query_1 = __importDefault(require("../models/case_query"));
 exports.route = (0, express_1.Router)();
+/*
 //Test Routes
-exports.route.get('/data/status', onTest.checkStatus);
-exports.route.post('/data', onTest.PostData);
-exports.route.delete('/data', onTest.deleteAll);
-exports.route.get('/data', onTest.getAllData);
+route.get('/data/status',onTest.checkStatus);
+route.post('/data',onTest.PostData);
+route.delete('/data',onTest.deleteAll);
+route.get('/data',onTest.getAllData);
 //by :id
-exports.route.get('/data/:id', onTest.getDataById);
-exports.route.put('/data/:id', onTest.updateData);
-exports.route.delete('/data/:id', onTest.deleteData);
-//Clients Routes
-exports.route.get('/clients/status', client_query_1.default.checkStatus);
+route.get('/data/:id',onTest.getDataById);
+route.put('/data/:id',onTest.updateData);
+route.delete('/data/:id',onTest.deleteData);
+*/
+//Basic--QueryModules
+const client_query_1 = __importDefault(require("../models/old/client_query"));
+const case_query_1 = __importDefault(require("../models/old/case_query"));
+const consult_query_1 = __importDefault(require("../models/old/consult_query"));
+//Admin--QueryModules
+const admin_1 = __importDefault(require("../models/old/admin"));
+const queryhandler_1 = require("../models/queryhandler");
+//========================= Clients Routes =========================//
 exports.route.get('/clients', client_query_1.default.getClients);
 exports.route.post('/clients', client_query_1.default.postClients);
-//Cases Routes
-exports.route.get('/cases/status', case_query_1.default.checkStatus);
-//Consults Routes 
-exports.route.get('/consults/status', case_query_1.default.checkStatus);
+//by :id
+exports.route.put('/clients/:id', client_query_1.default.updateClientByID);
+exports.route.delete('/clients/:id', client_query_1.default.deleteClientByID);
+//extra
+exports.route.get('/clients/deleted', client_query_1.default.getdeletedClients);
+//========================= Cases Routes =========================//
+exports.route.get('/cases', case_query_1.default.getCases);
+exports.route.post('/cases', case_query_1.default.postCases);
+//by :id
+exports.route.put('/cases/:id', case_query_1.default.updateCasesByID);
+exports.route.delete('/cases/:id', case_query_1.default.deleteCasesByID);
+//extra
+exports.route.get('/cases/deleted', case_query_1.default.getDeletedCases);
+//========================= Consults Routes =========================//
+exports.route.get('/consults', consult_query_1.default.getConsults);
+exports.route.post('/consults', consult_query_1.default.postConsults);
+//by :id
+exports.route.put('/consults/:id', consult_query_1.default.updateConsultsByID);
+exports.route.delete('/consults/:id', consult_query_1.default.deleteConsultsByID);
+//extra
+exports.route.get('/consults/deleted', consult_query_1.default.getDeletedConsults);
+////=========================Special Routes=========================//
+exports.route.get('/status', queryhandler_1.checkStatus);
+exports.route.delete('/nuke', admin_1.default.NUKE_IT);
