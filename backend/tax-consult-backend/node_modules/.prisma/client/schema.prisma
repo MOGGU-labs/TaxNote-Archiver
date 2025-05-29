@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model cases {
+  id_cases         Int        @id @default(autoincrement())
+  case_uuid        String     @default(dbgenerated("(uuid())")) @db.Char(36)
+  case_number      String?    @unique(map: "case_number") @db.VarChar(20)
+  id_client        Int
+  case_author      Int?
+  case_name        String     @db.VarChar(255)
+  case_type        String?    @db.VarChar(45)
+  case_description String?    @db.Text
+  created_at       DateTime?  @default(now()) @db.Timestamp(0)
+  updated_at       DateTime?  @default(now()) @db.Timestamp(0)
+  is_deleted       Boolean?   @default(false)
+  deleted_at       DateTime?  @db.DateTime(0)
+  clients          clients    @relation(fields: [id_client], references: [id_client], onDelete: Cascade, onUpdate: NoAction, map: "cases_ibfk_1")
+  users            users?     @relation(fields: [case_author], references: [id_user], onUpdate: NoAction, map: "cases_ibfk_2")
+  consults         consults[]
+
+  @@index([case_author], map: "case_author")
+  @@index([id_client], map: "id_client")
+}
+
+model clients {
+  id_client   Int       @id @default(autoincrement())
+  client_uuid String    @default(dbgenerated("(uuid())")) @db.Char(36)
+  client_code String?   @unique(map: "client_code") @db.VarChar(20)
+  nama_client String    @db.VarChar(90)
+  badan_usaha String?   @db.VarChar(95)
+  telp        String?   @db.VarChar(20)
+  alamat      String?   @db.VarChar(255)
+  npwp        String?   @db.VarChar(45)
+  nkp         String?   @db.VarChar(45)
+  keterangan  String?   @db.Text
+  created_at  DateTime? @default(now()) @db.Timestamp(0)
+  updated_at  DateTime? @default(now()) @db.Timestamp(0)
+  is_deleted  Boolean?  @default(false)
+  deleted_at  DateTime? @db.DateTime(0)
+  cases       cases[]
+}
+
+model consults {
+  id_consults        Int       @id @default(autoincrement())
+  consult_uuid       String    @default(dbgenerated("(uuid())")) @db.Char(36)
+  consult_code       String?   @unique(map: "consult_code") @db.VarChar(20)
+  id_cases           Int
+  tujuan_consult     String?   @db.VarChar(255)
+  keterangan_consult String?   @db.Text
+  hasil_consult      String?   @db.Text
+  konsultan_consult  String?   @db.VarChar(100)
+  consult_date       DateTime? @db.DateTime(0)
+  created_at         DateTime? @default(now()) @db.Timestamp(0)
+  updated_at         DateTime? @default(now()) @db.Timestamp(0)
+  is_deleted         Boolean?  @default(false)
+  deleted_at         DateTime? @db.DateTime(0)
+  cases              cases     @relation(fields: [id_cases], references: [id_cases], onDelete: Cascade, onUpdate: NoAction, map: "consults_ibfk_1")
+
+  @@index([id_cases], map: "id_cases")
+}
+
+model users {
+  id_user       Int       @id @default(autoincrement())
+  username      String    @unique(map: "username") @db.VarChar(50)
+  password_hash String    @db.VarChar(255)
+  full_name     String?   @db.VarChar(100)
+  email         String?   @db.VarChar(100)
+  created_at    DateTime? @default(now()) @db.Timestamp(0)
+  updated_at    DateTime? @default(now()) @db.Timestamp(0)
+  cases         cases[]
+}

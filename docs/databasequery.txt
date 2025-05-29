@@ -1,0 +1,116 @@
+-- Create schema
+CREATE SCHEMA IF NOT EXISTS tax_consult_app;
+USE tax_consult_app;
+
+-- Table: clients
+CREATE TABLE clients (
+    id_client INT AUTO_INCREMENT PRIMARY KEY,
+    client_uuid CHAR(36) NOT NULL DEFAULT (UUID()),
+    client_code VARCHAR(20) UNIQUE, -- e.g. CLNT-0001
+    nama_client VARCHAR(90) NOT NULL,
+    badan_usaha VARCHAR(95),
+    telp VARCHAR(20),
+    alamat VARCHAR(255),
+    npwp VARCHAR(45),
+    nkp VARCHAR(45),
+    keterangan TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_deleted TINYINT(1) DEFAULT 0,
+    deleted_at DATETIME
+);
+
+-- Table: users (optional, for authors/consultants)
+CREATE TABLE users (
+    id_user INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    full_name VARCHAR(100),
+    email VARCHAR(100),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Table: cases
+CREATE TABLE cases (
+    id_cases INT AUTO_INCREMENT PRIMARY KEY,
+    case_uuid CHAR(36) NOT NULL DEFAULT (UUID()),
+    case_number VARCHAR(20) UNIQUE, -- e.g. CASE-0001
+    id_client INT NOT NULL,
+    case_author INT,
+    case_name VARCHAR(255) NOT NULL,
+    case_type VARCHAR(45),
+    case_description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_deleted TINYINT(1) DEFAULT 0,
+    deleted_at DATETIME,
+    FOREIGN KEY (id_client) REFERENCES clients(id_client) ON DELETE CASCADE,
+    FOREIGN KEY (case_author) REFERENCES users(id_user) ON DELETE SET NULL
+);
+
+-- Table: consults
+CREATE TABLE consults (
+    id_consults INT AUTO_INCREMENT PRIMARY KEY,
+    consult_uuid CHAR(36) NOT NULL DEFAULT (UUID()),
+    consult_code VARCHAR(20) UNIQUE, -- e.g. CNSLT-0001
+    id_cases INT NOT NULL,
+    tujuan_consult VARCHAR(255),
+    keterangan_consult TEXT,
+    hasil_consult TEXT,
+    konsultan_consult VARCHAR(100),
+    consult_date DATETIME,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_deleted TINYINT(1) DEFAULT 0,
+    deleted_at DATETIME,
+    FOREIGN KEY (id_cases) REFERENCES cases(id_cases) ON DELETE CASCADE
+);
+
+-- ========================================
+-- ✅ Triggers to propagate updates upward
+-- ========================================
+
+DELIMITER $$
+
+-- When a consult is inserted → update parent case
+CREATE TRIGGER trg_consult_inserted
+AFTER INSERT ON consults
+FOR EACH ROW
+BEGIN
+    UPDATE cases
+    SET updated_at = CURRENT_TIMESTAMP
+    WHERE id_cases = NEW.id_cases;
+END$$
+
+-- When a consult is updated → update parent case
+CREATE TRIGGER trg_consult_updated
+AFTER UPDATE ON consults
+FOR EACH ROW
+BEGIN
+    UPDATE cases
+    SET updated_at = CURRENT_TIMESTAMP
+    WHERE id_cases = NEW.id_cases;
+END$$
+
+-- When a case is inserted → update parent client
+CREATE TRIGGER trg_case_inserted
+AFTER INSERT ON cases
+FOR EACH ROW
+BEGIN
+    UPDATE clients
+    SET updated_at = CURRENT_TIMESTAMP
+    WHERE id_client = NEW.id_client;
+END$$
+
+-- When a case is updated → update parent client
+CREATE TRIGGER trg_case_updated
+AFTER UPDATE ON cases
+FOR EACH ROW
+BEGIN
+    UPDATE clients
+    SET updated_at = CURRENT_TIMESTAMP
+    WHERE id_client = NEW.id_client;
+END$$
+
+DELIMITER ;
