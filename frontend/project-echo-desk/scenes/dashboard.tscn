@@ -1,0 +1,84 @@
+[gd_scene load_steps=3 format=3 uid="uid://dchm3ix2tx43v"]
+
+[ext_resource type="Script" uid="uid://cuqp1h7py3cq1" path="res://scripts/sidebar_btn.gd" id="1_bi3rc"]
+[ext_resource type="PackedScene" uid="uid://yrpg8ltpul4r" path="res://scenes/content.tscn" id="1_sss21"]
+
+[node name="dashboard" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="canvas" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(1600, 800)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="header" type="VBoxContainer" parent="canvas"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="canvas/header"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="sidebar-btn" type="Button" parent="canvas/header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "<<<"
+script = ExtResource("1_bi3rc")
+
+[node name="TextEdit" type="TextEdit" parent="canvas/header/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 10.0
+text = "This is a header"
+
+[node name="body" type="VBoxContainer" parent="canvas"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="container" type="HBoxContainer" parent="canvas/body"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="sidebar-container" type="VBoxContainer" parent="canvas/body/container"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+
+[node name="Button" type="Button" parent="canvas/body/container/sidebar-container"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "side bar"
+
+[node name="content-container" type="VBoxContainer" parent="canvas/body/container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="TextEdit3" type="TextEdit" parent="canvas/body/container/content-container"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+text = "this is a content"
+
+[node name="content" parent="canvas/body/container/content-container" instance=ExtResource("1_sss21")]
+layout_mode = 2
+
+[node name="footer" type="HBoxContainer" parent="canvas"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+
+[node name="TextEdit4" type="TextEdit" parent="canvas/footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "this is a footer"
+
+[connection signal="pressed" from="canvas/header/HBoxContainer/sidebar-btn" to="canvas/header/HBoxContainer/sidebar-btn" method="_on_pressed"]

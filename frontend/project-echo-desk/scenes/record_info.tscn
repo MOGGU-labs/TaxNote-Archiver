@@ -1,0 +1,67 @@
+[gd_scene load_steps=3 format=3 uid="uid://dihn64fc4fubs"]
+
+[ext_resource type="Script" uid="uid://b148x2g6cfboc" path="res://scenes/detail_btn.gd" id="1_p3w2f"]
+[ext_resource type="Script" uid="uid://dltb0bj7t1u5p" path="res://scenes/record_info.gd" id="1_tyngx"]
+
+[node name="record-info" type="HBoxContainer"]
+size_flags_vertical = 3
+script = ExtResource("1_tyngx")
+
+[node name="info-body" type="HSplitContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 7.0
+
+[node name="number" type="LineEdit" parent="info-body"]
+layout_mode = 2
+text = "1"
+alignment = 1
+editable = false
+
+[node name="field-container" type="VSplitContainer" parent="info-body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reqfield" type="HBoxContainer" parent="info-body/field-container"]
+layout_mode = 2
+
+[node name="code" type="Button" parent="info-body/field-container/reqfield"]
+layout_mode = 2
+text = "CLNT-0000"
+
+[node name="nama" type="LineEdit" parent="info-body/field-container/reqfield"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "NAMA KLIEN"
+max_length = 50
+editable = false
+
+[node name="usaha" type="LineEdit" parent="info-body/field-container/reqfield"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "BADAN USAHA"
+max_length = 50
+editable = false
+
+[node name="npwp" type="LineEdit" parent="info-body/field-container/reqfield"]
+layout_mode = 2
+size_flags_horizontal = 3
+placeholder_text = "NPWP KELAS"
+max_length = 50
+editable = false
+
+[node name="optfield" type="TextEdit" parent="info-body/field-container"]
+layout_mode = 2
+size_flags_vertical = 3
+placeholder_text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
+editable = false
+scroll_fit_content_height = true
+scroll_fit_content_width = true
+
+[node name="detail_btn" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Open Details"
+script = ExtResource("1_p3w2f")
+
+[connection signal="pressed" from="detail_btn" to="detail_btn" method="_on_pressed"]
