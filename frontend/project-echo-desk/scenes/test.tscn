@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://dldoalhevkilj"]
+
+[ext_resource type="Script" uid="uid://bkumm32ld8drv" path="res://scripts/test.gd" id="1_bl13t"]
+[ext_resource type="Script" uid="uid://bi07qdixgktne" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="2_iyx0m"]
+[ext_resource type="Script" uid="uid://kxahs4h5jp2k" path="res://scripts/dataclass.gd" id="3_iyx0m"]
+
+[node name="test" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bl13t")
+
+[node name="HTTPManager" type="Node" parent="."]
+script = ExtResource("2_iyx0m")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -244.5
+offset_top = -65.0
+offset_right = 244.5
+grow_horizontal = 2
+grow_vertical = 0
+text = "Test Button"
+
+[node name="TextEdit" type="TextEdit" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -182.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ItemList" type="ItemList" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_bottom = -124.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Node" type="Node" parent="."]
+script = ExtResource("3_iyx0m")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
