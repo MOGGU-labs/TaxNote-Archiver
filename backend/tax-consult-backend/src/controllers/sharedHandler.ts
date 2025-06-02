@@ -2,8 +2,8 @@ import { Request, Response, RequestHandler } from 'express';
 import prisma from '../prisma/client';
 import { TableConfig } from '../config/TableConfig';
 import { sanitizeInput } from '../utils/sanitizeInput';
-import { formatDateFields } from '../utils/fomatDate';
-
+import { formatDateFields } from '../utils/formatDate';
+import { paginateList } from '../utils/paginateList';
 
 // Helper to get Prisma model delegate
 function getModel(modelName: keyof typeof prisma) {
@@ -13,19 +13,38 @@ function getModel(modelName: keyof typeof prisma) {
     const sharedHandler = {
     list: (config: TableConfig): RequestHandler => async (req, res) => {
         try {
-            const model = getModel(config.model);
+            //Configure Page
+            const page = parseInt(req.query.page as string) || 1;
+            const limit = parseInt(req.query.limit as string) || 5;
+
+            //Soft Delete Check
             const where = config.softDelete
                 ? { [config.softDeleteField!]: false }
                 : {};
+
+            //Order from Ascending or Descending (check TableConfig.ts for more information)
             const orderBy = config.defaultOrderField
                 ? { [config.defaultOrderField]: config.defaultOrderDirection ?? 'asc' }
                 : undefined;
-            const records = await model.findMany({
+
+            //Query Exec
+            const result = await paginateList({
+                prisma,
+                model: config.model,
+                page,
+                limit,
                 where,
                 orderBy
             });
-            const formatted = formatDateFields(records, config.dateFields ?? []);
-            res.json(formatted);
+
+            //Reformat Date to use (DD/MM/YYYY) and (HH/MM)
+            const formatted = formatDateFields(result.data, config.dateFields ?? []);
+
+            //Response Success
+            res.json({
+                ...result, // includes page, limit, total records, totalPages
+                data: formatted // replace raw data with formatted version
+            });
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: 'List failed' });
