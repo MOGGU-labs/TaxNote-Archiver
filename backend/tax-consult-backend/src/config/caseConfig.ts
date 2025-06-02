@@ -7,7 +7,12 @@ const caseConfig: TableConfig = {
     softDelete: true,
     softDeleteField: 'is_deleted',
     codeField: 'case_number',
-    codePrefix: 'CASE-'
+    codePrefix: 'CASE-',
+    dateFields: ['created_at', 'updated_at'],
+    defaultOrderField: 'updated_at',
+    defaultOrderDirection: 'desc',
+    requiredFields: ['id_client','case_author','case_name','case_type'],
+    optionalFields: ['case_description'],
 };
 
 export default caseConfig;

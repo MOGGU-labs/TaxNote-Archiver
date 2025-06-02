@@ -1,8 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://2f1d2w401wr1"]
-
-[ext_resource type="Script" uid="uid://dokh64v36yvsh" path="res://APP/httpmanager.gd" id="1_yxqjf"]
-
-[node name="HTTPmanager" type="Node"]
-script = ExtResource("1_yxqjf")
-
-[node name="HTTPRequest" type="HTTPRequest" parent="."]

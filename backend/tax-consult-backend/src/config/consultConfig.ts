@@ -8,8 +8,10 @@ const consultConfig: TableConfig = {
     softDeleteField: 'is_deleted',
     codeField: 'consult_code',
     codePrefix: 'CNSLT-',
-    dateFields: ['consult_date', 'created_at', 'updated_at']
+    dateFields: ['consult_date', 'created_at', 'updated_at'],
     
+    requiredFields: [''],
+    optionalFields: ['']
 };
 
 export default consultConfig;

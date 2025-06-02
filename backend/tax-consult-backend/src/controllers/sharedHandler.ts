@@ -4,6 +4,7 @@ import { TableConfig } from '../config/TableConfig';
 import { sanitizeInput } from '../utils/sanitizeInput';
 import { formatDateFields } from '../utils/formatDate';
 import { paginateList } from '../utils/paginateList';
+import { filterRequiredFields } from "../utils/filterRequiredFields";
 
 // Helper to get Prisma model delegate
 function getModel(modelName: keyof typeof prisma) {
@@ -54,7 +55,7 @@ function getModel(modelName: keyof typeof prisma) {
     create: (config: TableConfig): RequestHandler => async (req, res) => {
         try {
         const model = getModel(config.model);
-        const data = req.body;
+        const data = filterRequiredFields(req.body, config.optionalFields ?? []);
         sanitizeInput(data, config.dateFields ?? []);
         // Build uniqueness check
         let whereUnique = {};
@@ -113,7 +114,9 @@ function getModel(modelName: keyof typeof prisma) {
         try {
         const model = getModel(config.model);
         const id = Number(req.params.id);
-        const data = req.body;
+        
+        const data = filterRequiredFields(req.body, config.optionalFields ?? []);
+        sanitizeInput(data, config.dateFields ?? []);
 
         const updated = await model.update({
             where: { [config.idField]: id },

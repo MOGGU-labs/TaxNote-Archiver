@@ -15,7 +15,6 @@ size_flags_stretch_ratio = 5.0
 script = ExtResource("1_obg38")
 
 [node name="dummy-record" type="HBoxContainer" parent="."]
-visible = false
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 20.0
