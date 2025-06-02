@@ -40,11 +40,19 @@ function getModel(modelName: keyof typeof prisma) {
 
             //Reformat Date to use (DD/MM/YYYY) and (HH/MM)
             const formatted = formatDateFields(result.data, config.dateFields ?? []);
-
+            
+            const formattedWithOptional = formatted.map(item => {
+            for (const field of config.optionalFields ?? []) {
+                if (item[field] === null || item[field] === undefined || item[field] === '') {
+                item[field] = '-';
+                }
+            }
+            return item;
+            });
             //Response Success
             res.json({
                 ...result, // includes page, limit, total records, totalPages
-                data: formatted // replace raw data with formatted version
+                data: formattedWithOptional // replace raw data with formatted version
             });
         } catch (err) {
             console.error(err);
@@ -55,8 +63,24 @@ function getModel(modelName: keyof typeof prisma) {
     create: (config: TableConfig): RequestHandler => async (req, res) => {
         try {
         const model = getModel(config.model);
+        
         const data = filterRequiredFields(req.body, config.optionalFields ?? []);
         sanitizeInput(data, config.dateFields ?? []);
+
+        //check for missing fields
+        const missingFields = (config.requiredFields ?? []).filter(field =>
+        data[field] === undefined || data[field] === null || data[field] === ''
+        );
+        if (missingFields.length > 0) {
+        res.status(400).json({
+            error: 'Validation failed',
+            message: 'Missing required fields',
+            missingFields,
+            optionalFields: config.optionalFields ?? []
+        });
+        return;
+        }
+
         // Build uniqueness check
         let whereUnique = {};
         if (config.uniqueFields) {
@@ -112,21 +136,49 @@ function getModel(modelName: keyof typeof prisma) {
 
     update: (config: TableConfig): RequestHandler => async (req, res) => {
         try {
-        const model = getModel(config.model);
-        const id = Number(req.params.id);
-        
-        const data = filterRequiredFields(req.body, config.optionalFields ?? []);
-        sanitizeInput(data, config.dateFields ?? []);
+            const model = getModel(config.model);
+            const id = Number(req.params.id);
 
-        const updated = await model.update({
-            where: { [config.idField]: id },
-            data
-        });
+            // Allowed fields = required + optional
+            const allowedFields = (config.requiredFields ?? []).concat(config.optionalFields ?? []);
 
-        res.json(updated);
+            // Get existing record
+            const existing = await model.findUnique({
+                where: { [config.idField]: id },
+            });
+
+            if (!existing) {
+                res.status(404).json({ error: 'Record not found' });
+                return;
+            }
+
+            // Fields sent by client but not allowed to update
+            const ignoredFields = Object.keys(req.body).filter(key => !allowedFields.includes(key));
+
+            // Filter data to only allowed fields
+            const data = Object.fromEntries(
+                Object.entries(req.body).filter(([key]) => allowedFields.includes(key))
+            );
+            sanitizeInput(data, config.dateFields ?? []);
+
+            // Determine which allowed fields actually changed compared to existing record
+            const changedFields = Object.entries(data)
+                .filter(([key, value]) => existing[key] !== value)
+                .map(([key]) => key);
+
+            const updated = await model.update({
+                where: { [config.idField]: id },
+                data
+            });
+
+            res.json({
+                updated,
+                changedFields,
+                ignoredFields
+            });
         } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Update failed' });
+            console.error(err);
+            res.status(500).json({ error: 'Update failed' });
         }
     },
 

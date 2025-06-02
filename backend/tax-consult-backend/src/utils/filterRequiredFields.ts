@@ -1,5 +1,3 @@
-// utils/filterRequiredFields.ts
-
 export function filterRequiredFields(
     data: Record<string, any>,
     optionalFields: string[] = []
@@ -13,9 +11,7 @@ export function filterRequiredFields(
         if (value === undefined || value === null || value === '') {
         if (!isOptional) {
             missingFields.push(key);
-        } else {
-            filtered[key] = 'empty value';
-        }
+        } //skip setting optional fields that are invalid
         } else {
         filtered[key] = value;
         }
