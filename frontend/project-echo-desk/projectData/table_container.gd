@@ -1,18 +1,13 @@
 extends VBoxContainer
 
-const RECORD_INFO = preload("res://scenes/record_info.tscn")
+const RECORDS = preload("res://projectData/records.tscn")
 
-func set_client_data(data: Array) -> void:
-	# Clear old children
+func set_client_data(data: Array, current_page: int, page_size: int) -> void:
 	for child in get_children():
 		child.queue_free()
-	
 
-	# Create and add record scenes
-	for client_dict in data:
-		if typeof(client_dict) == TYPE_DICTIONARY:
-			var client := ClientData.from_dict(client_dict)
-			var record = RECORD_INFO.instantiate()
-			add_child(record)
-			record.set_data_from_client(client)
-			
+	for i in data.size():
+		var client = ClientData.from_dict(data[i])
+		var entry = RECORDS.instantiate()
+		add_child(entry)
+		entry.set_data_from_client(client, current_page, page_size, i)

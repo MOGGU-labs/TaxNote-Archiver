@@ -1,6 +1,5 @@
-[gd_scene load_steps=4 format=3 uid="uid://bj08q4s8yrnco"]
+[gd_scene load_steps=3 format=3 uid="uid://bj08q4s8yrnco"]
 
-[ext_resource type="Script" uid="uid://dsoi1rumd6wlr" path="res://scenes/table_container.gd" id="1_obg38"]
 [ext_resource type="Script" uid="uid://bi07qdixgktne" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="4_6hhq4"]
 
 [sub_resource type="GDScript" id="GDScript_bl13t"]
@@ -69,7 +68,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 5.0
-script = ExtResource("1_obg38")
 
 [node name="Node" type="Node" parent="."]
 script = SubResource("GDScript_bl13t")

@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2x3hghxu7q8a"]
+[gd_scene load_steps=7 format=3 uid="uid://c2x3hghxu7q8a"]
 
 [ext_resource type="Script" uid="uid://y3sd7iu6vkvi" path="res://dataclass/data_classes.gd" id="1_sk4ku"]
 [ext_resource type="Script" uid="uid://cmtrvvqy4pma4" path="res://dataclass/client_class.gd" id="2_x0ldo"]
 [ext_resource type="Script" uid="uid://d380bw818lx4v" path="res://dataclass/case_class.gd" id="3_eilqs"]
 [ext_resource type="Script" uid="uid://do3qxkup5kogd" path="res://dataclass/consult_class.gd" id="4_d6qqu"]
 [ext_resource type="Script" uid="uid://d1htpb0582o6r" path="res://dataclass/user_class.gd" id="5_qafga"]
+[ext_resource type="Script" uid="uid://oasthp6iq1xf" path="res://dataclass/paginationInfo.gd" id="6_p5jn2"]
 
 [node name="DataClasses" type="Node"]
 script = ExtResource("1_sk4ku")
@@ -20,3 +21,6 @@ script = ExtResource("4_d6qqu")
 
 [node name="user_class" type="Node" parent="."]
 script = ExtResource("5_qafga")
+
+[node name="page_info" type="Node" parent="."]
+script = ExtResource("6_p5jn2")

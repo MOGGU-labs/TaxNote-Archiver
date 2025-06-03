@@ -1,0 +1,76 @@
+[gd_scene load_steps=2 format=3 uid="uid://c31mvkscjkndt"]
+
+[ext_resource type="Theme" uid="uid://cqu7acm5y8r0s" path="res://projectData/themes/new_theme.tres" id="1_6yii0"]
+
+[node name="recordheads" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="numbering" type="Button" parent="."]
+clip_contents = true
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+theme = ExtResource("1_6yii0")
+disabled = true
+text = "NO"
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+split_offset = 20
+collapsed = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="code" type="Button" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.39
+theme = ExtResource("1_6yii0")
+disabled = true
+text = "KODE"
+
+[node name="namaclient" type="LineEdit" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_6yii0")
+placeholder_text = "NAMA KLIEN"
+alignment = 1
+editable = false
+
+[node name="badanusaha" type="LineEdit" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_6yii0")
+placeholder_text = "NAMA USAHA"
+alignment = 1
+editable = false
+
+[node name="npwp" type="LineEdit" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_6yii0")
+theme_type_variation = &"background"
+placeholder_text = "NPWP"
+alignment = 1
+editable = false
+
+[node name="optionals" type="TextEdit" parent="VSplitContainer"]
+visible = false
+layout_mode = 2
+editable = false
+
+[node name="detailsbtn" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+
+[connection signal="pressed" from="detailsbtn" to="." method="_on_detailsbtn_pressed"]

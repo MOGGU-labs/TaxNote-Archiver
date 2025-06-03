@@ -20,5 +20,3 @@ func set_data_from_client(client: ClientData) -> void:
 	if parent:
 		var index = parent.get_children().find(self)
 		$"info-body/number".text = str(index + 1)
-		
-	

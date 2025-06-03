@@ -4,6 +4,8 @@
 [ext_resource type="Script" uid="uid://dltb0bj7t1u5p" path="res://scenes/record_info.gd" id="1_tyngx"]
 
 [node name="record-info" type="HBoxContainer"]
+offset_right = 898.0
+offset_bottom = 344.0
 size_flags_vertical = 3
 script = ExtResource("1_tyngx")
 

@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Project Echo Desk"
 config/description="Project aplikasi manager untuk catatan hasil konsultasi pajak"
-run/main_scene="uid://dchm3ix2tx43v"
+run/main_scene="uid://bboe267uugsdo"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/bg_color=Color(1, 1, 1, 1)
 boot_splash/image="uid://bd3whr8yvrstl"

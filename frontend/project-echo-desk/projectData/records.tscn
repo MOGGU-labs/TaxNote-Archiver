@@ -1,0 +1,72 @@
+[gd_scene load_steps=3 format=3 uid="uid://b0mef1tgxxxor"]
+
+[ext_resource type="Script" uid="uid://5nhc1yc34jcw" path="res://projectData/records.gd" id="1_bk50i"]
+[ext_resource type="Theme" uid="uid://ck6pcyrhhn8mo" path="res://projectData/themes/fonts.tres" id="1_ni14t"]
+
+[node name="records" type="HBoxContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = ExtResource("1_ni14t")
+script = ExtResource("1_bk50i")
+
+[node name="numbering" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+disabled = true
+text = "1"
+
+[node name="VSplitContainer" type="VSplitContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 5.0
+split_offset = 20
+collapsed = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="code" type="Button" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.39
+theme = ExtResource("1_ni14t")
+disabled = true
+text = "CLNT-0000"
+
+[node name="namaclient" type="LineEdit" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_ni14t")
+placeholder_text = "NAMA KLIEN"
+editable = false
+
+[node name="badanusaha" type="LineEdit" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_ni14t")
+placeholder_text = "NAMA USAHA"
+editable = false
+
+[node name="npwp" type="LineEdit" parent="VSplitContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("1_ni14t")
+theme_type_variation = &"newfont"
+placeholder_text = "NPWP"
+editable = false
+
+[node name="optionals" type="TextEdit" parent="VSplitContainer"]
+layout_mode = 2
+
+[node name="detailsbtn" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "OPEN DETAILS"
+
+[connection signal="pressed" from="detailsbtn" to="." method="_on_detailsbtn_pressed"]
