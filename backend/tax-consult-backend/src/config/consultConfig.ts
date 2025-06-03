@@ -16,9 +16,12 @@ const consultConfig: TableConfig = {
     defaultOrderField: 'updated_at',
     defaultOrderDirection: 'desc',
     
-    requiredFields: ['id_cases','tujuan_consult','konsultan_consult','tanggal_consult',],
+    requiredFields: ['id_cases','tujuan_consult','konsultan_consult','consult_date',],
     optionalFields: ['keterangan_consult','hasil_consult'],
-
+    
+    includeRelations: {
+        cases: true
+    },
 };
 
 export default consultConfig;

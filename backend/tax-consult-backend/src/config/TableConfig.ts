@@ -22,6 +22,9 @@ export interface TableConfig {
     // Field Filters
     requiredFields?: string[];
     optionalFields?: string[];
-
-
+    
+    //Table Relations
+    includeRelations?: {
+        [relationName: string]: boolean;
+    };
 }

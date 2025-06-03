@@ -7,6 +7,7 @@ interface Paginatelist {
     limit?: number;
     where?: Record<string, any>;
     orderBy?: Record<string, 'asc' | 'desc'>;
+    include?: Record<string, boolean | object>;  // Add this line
 }
 
 interface PaginatedResult<T> {
@@ -23,7 +24,8 @@ export async function paginateList<T>({
     page = 1,
     limit = 5,
     where = {},
-    orderBy
+    orderBy,
+    include,  // Add this here too
 }: Paginatelist): Promise<PaginatedResult<T>> {
     const repo = prisma[model] as any;
 
@@ -32,7 +34,8 @@ export async function paginateList<T>({
         where,
         orderBy,
         skip: (page - 1) * limit,
-        take: limit
+        take: limit,
+        include,  // Pass include here
     });
 
     return {

@@ -1,0 +1,71 @@
+[gd_scene load_steps=3 format=3 uid="uid://by1d67t3f6dfp"]
+
+[ext_resource type="Script" uid="uid://de2r7twkmlf0n" path="res://scripts/paginator.gd" id="1_0iluw"]
+[ext_resource type="Script" uid="uid://bi07qdixgktne" path="res://addons/HTTPManager/classes/HTTPManager.gd" id="2_cxr30"]
+
+[node name="paginator" type="HBoxContainer"]
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+script = ExtResource("1_0iluw")
+
+[node name="prevbtn" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Prev"
+
+[node name="pages-container" type="BoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.84
+
+[node name="pages" type="HBoxContainer" parent="pages-container"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="1st" type="Button" parent="pages-container/pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+
+[node name="2nd" type="Button" parent="pages-container/pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "2"
+
+[node name="3rd" type="Button" parent="pages-container/pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "3"
+
+[node name="4th" type="Button" parent="pages-container/pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "4"
+
+[node name="LineEdit" type="LineEdit" parent="pages-container/pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 8.81
+placeholder_text = "..."
+alignment = 1
+
+[node name="endofpage" type="Button" parent="pages-container/pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "10
+"
+
+[node name="findpage" type="Button" parent="pages-container/pages"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.42
+text = "Find"
+
+[node name="nextbtn" type="Button" parent="."]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Next"
+
+[node name="HTTPManager" type="Node" parent="."]
+script = ExtResource("2_cxr30")
+metadata/_custom_type_script = "uid://bi07qdixgktne"

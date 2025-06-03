@@ -18,6 +18,11 @@ const caseConfig: TableConfig = {
     
     requiredFields: ['id_client','case_author','case_name','case_type'],
     optionalFields: ['case_description'],
+
+    includeRelations: {
+        clients: true,
+        users: true
+    }
 };
 
 export default caseConfig;

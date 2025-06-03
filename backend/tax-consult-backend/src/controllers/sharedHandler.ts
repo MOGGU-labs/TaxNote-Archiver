@@ -1,63 +1,78 @@
 import { Request, Response, RequestHandler } from 'express';
 import prisma from '../prisma/client';
 import { TableConfig } from '../config/TableConfig';
-import { sanitizeInput } from '../utils/sanitizeInput';
-import { formatDateFields } from '../utils/formatDate';
-import { paginateList } from '../utils/paginateList';
-import { filterRequiredFields } from "../utils/filterRequiredFields";
+
+import {
+    sanitizeInput,
+    formatDateFields,
+    paginateList,
+    filterRequiredFields,
+    getIncludeRelations,
+    mapRelatedNames,
+    } 
+    from '../utils/utilsIndex';
+
 
 // Helper to get Prisma model delegate
 function getModel(modelName: keyof typeof prisma) {
     return prisma[modelName] as any;
     }
-
     const sharedHandler = {
     list: (config: TableConfig): RequestHandler => async (req, res) => {
         try {
-            //Configure Page
-            const page = parseInt(req.query.page as string) || 1;
-            const limit = parseInt(req.query.limit as string) || 5;
+        // Configure Page
+        const page = parseInt(req.query.page as string) || 1;
+        const limit = parseInt(req.query.limit as string) || 5;
 
-            //Soft Delete Check
-            const where = config.softDelete
-                ? { [config.softDeleteField!]: false }
-                : {};
+        // Soft Delete Check
+        const where = config.softDelete
+            ? { [config.softDeleteField!]: false }
+            : {};
 
-            //Order from Ascending or Descending (check TableConfig.ts for more information)
-            const orderBy = config.defaultOrderField
-                ? { [config.defaultOrderField]: config.defaultOrderDirection ?? 'asc' }
-                : undefined;
+        // Order from Ascending or Descending
+        const orderBy = config.defaultOrderField
+            ? { [config.defaultOrderField]: config.defaultOrderDirection ?? 'asc' }
+            : undefined;
 
-            //Query Exec
-            const result = await paginateList({
-                prisma,
-                model: config.model,
-                page,
-                limit,
-                where,
-                orderBy
-            });
+        // Get include from utility
+        const include = getIncludeRelations(config);
 
-            //Reformat Date to use (DD/MM/YYYY) and (HH/MM)
-            const formatted = formatDateFields(result.data, config.dateFields ?? []);
-            
-            const formattedWithOptional = formatted.map(item => {
+        // Query Exec
+        const result = await paginateList({
+            prisma,
+            model: config.model,
+            page,
+            limit,
+            where,
+            orderBy,
+            include,
+        });
+
+        // Reformat Dates
+        const formatted = formatDateFields(result.data, config.dateFields ?? []);
+
+        // Map related names with utility function
+        const mappedData = mapRelatedNames(formatted, include);
+
+        // Change Null values to -
+        const formattedWithOptional = mappedData.map(item => {
             for (const field of config.optionalFields ?? []) {
                 if (item[field] === null || item[field] === undefined || item[field] === '') {
-                item[field] = '-';
+                    item[field] = '-';
                 }
             }
             return item;
-            });
-            //Response Success
-            res.json({
-                ...result, // includes page, limit, total records, totalPages
-                data: formattedWithOptional // replace raw data with formatted version
-            });
+        });
+
+        // Response Success
+        res.json({
+            ...result,
+            data: formattedWithOptional
+        });
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: 'List failed' });
-    }
+        }
     },
 
     create: (config: TableConfig): RequestHandler => async (req, res) => {
