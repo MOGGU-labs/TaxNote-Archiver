@@ -24,4 +24,23 @@ router.delete('/nuke/all', async (req, res) => {
     }
 });
 
+router.get('/users', async (req, res) => {
+    try {
+        const users = await prisma.users.findMany({
+        select: {
+            id_user: true,
+            username: true,
+            full_name: true,
+            email: true,
+            created_at: true
+        }
+        });
+
+        res.json(users);
+    } catch (err) {
+        console.error('Error fetching users:', err);
+        res.status(500).json({ message: 'Failed to fetch users' });
+    }
+});
+
 export default router;

@@ -4,6 +4,7 @@ const RECORD_INFO = preload("res://scenes/record_info.tscn")
 @onready var table_container = $Container/TableContainer  # TableContainer has its own script
 @onready var returnbtn: Button = $Container/returnbtn
 
+
 func _populate_list(job) -> void:
 	var body = job.response_body.get_string_from_utf8()
 	var response_data = JSON.parse_string(body)
@@ -29,16 +30,20 @@ func _populate_list(job) -> void:
 
 @onready var pagenumber: LineEdit = $Container/pagefinder/pagenumber
 @onready var select_page: Button = $Container/pagefinder/selectpage
-
+var token: String = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c2VyIjoyLCJ1c2VybmFtZSI6ImFkbWluIiwiaWF0IjoxNzQ5MDE2NzcwLCJleHAiOjE3NDkwMTczNzB9.UmdiSJJdq7jNm1IQT8ktPd-Aqs4DZWDQgs__VxpG-hc"
 func _ready() -> void:
 	pagenumber.text = "1"
-	$HTTPManager.connect("completed", func(): print("✅ All jobs completed"))
+
 	$HTTPManager.job("http://localhost:3000/clients"
+	).add_header("Authorization", "Bearer %s" %token
 	).charset("utf-8"
 	).on_success(func(job):
 		_populate_list(job)
+		print("✅ Successfully fetched clients")
+	).on_failure(
+		func( _response ): print("💀 Not Authorized")
 	).fetch()
-	
+
 func _on_selectpage_pressed() -> void:
 	var page_input = pagenumber.text.strip_edges()
 	var page_num = int(page_input)
@@ -50,10 +55,15 @@ func _on_selectpage_pressed() -> void:
 		child.queue_free()
 		
 	var url = "http://localhost:3000/clients?page=%d" % page_num
+	
 	$HTTPManager.job(url
+	).add_header("Authorization", "Bearer %s" %token
 	).charset("utf-8"
 	).on_success(func(job):
 		_populate_list(job)
+		print("✅ Successfully fetched clients")
+	).on_failure(
+		func( _response ): print("💀 Not Authorized Token")
 	).fetch()
 
 func _on_returnbtn_pressed() -> void:
